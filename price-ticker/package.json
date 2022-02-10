@@ -1,0 +1,24 @@
+{
+  "type": "module",
+  "name": "get-ratios-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "watch": "npm run build -- --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^17.0.16",
+    "axios": "^0.25.0",
+    "json-bigint": "^1.0.0",
+    "mathjs": "^10.1.1",
+    "moment": "^2.29.1",
+    "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/json-bigint": "^1.0.1"
+  }
+}
