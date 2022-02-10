@@ -1,4 +1,4 @@
-import { ITokenDetail } from "./ITokenDetail";
+import { ITokenDetail } from './ITokenDetail';
 
 export interface ITokenAmount extends ITokenDetail {
   amount: number;

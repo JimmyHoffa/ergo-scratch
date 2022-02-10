@@ -1,4 +1,4 @@
-import { ITokenInfo } from "./ITokenInfo";
+import { ITokenInfo } from './ITokenInfo';
 
 export interface ITokenDetail {
   token: ITokenInfo;

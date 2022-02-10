@@ -1,4 +1,4 @@
-import { ITokenDetail } from "./ITokenDetail";
+import { ITokenDetail } from './ITokenDetail';
 
 export interface ITokenSwapValue extends ITokenDetail {
   sigUSDPerToken: number;
