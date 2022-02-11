@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc -p .",
     "lint": "eslint .",
+    "test": "jest",
     "watch": "npm run build -- --watch"
   },
   "author": "",
@@ -18,6 +19,7 @@
     "moment": "^2.29.1"
   },
   "devDependencies": {
+    "@types/jest": "^27.4.0",
     "@types/json-bigint": "^1.0.1",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
     "@typescript-eslint/parser": "^5.11.0",
