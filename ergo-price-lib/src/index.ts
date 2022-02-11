@@ -1,7 +1,7 @@
-import { ExplorerTokenSwapMarketRepository } from './ExplorerTokenSwapMarketRepository';
-
-export { ITokenInfo } from './interfaces/ITokenInfo';
-export { ITokenDetail } from './interfaces/ITokenDetail';
+export { ExplorerTokenSwapMarketRepository } from './ExplorerTokenSwapMarketRepository';
 export { ITokenAmount } from './interfaces/ITokenAmount';
-export { ITokenSwapValue } from './interfaces/ITokenSwapValue';
+export { ITokenDetail } from './interfaces/ITokenDetail';
+export { ITokenInfo } from './interfaces/ITokenInfo';
 export { ITokenSwapMarketRepository } from './interfaces/ITokenSwapMarketRepository';
+export { ITokenSwapValue } from './interfaces/ITokenSwapValue';
+

@@ -24,6 +24,9 @@ module.exports = {
   overrides: [
     {
       files: ["**/*.ts", "**/*.tsx"],
+      env: {
+        jest: true,
+      },
       parser: "@typescript-eslint/parser",
       parserOptions: {
         project: "./tsconfig.json",

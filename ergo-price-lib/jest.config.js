@@ -1,5 +1,4 @@
 module.exports = {
-  roots: "./",
   testEnvironment: "node",
   collectCoverage: false,
   roots: ["src"],
@@ -14,16 +13,3 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js", "json"],
   watchPathIgnorePatterns: ["node_modules"],
 };
-
-// module.exports = {
-//   extends: "airbnb-typescript-prettier",
-// };
-
-// module.exports = {
-//   root: true,
-//   extends: "airbnb-typescript/base",
-//   plugins: ["import", "prettier"],
-//   parserOptions: {
-//     project: "./tsconfig.eslint.json",
-//   },
-// };

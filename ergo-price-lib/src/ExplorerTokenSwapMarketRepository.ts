@@ -39,11 +39,31 @@ export class ExplorerTokenSwapMarketRepository implements ITokenSwapMarketReposi
 
   constructor(
     private explorerUri: string = 'https://api.ergoplatform.com',
-    axiosInstanceConfig: AxiosRequestConfig = {},
     private defaultRetryCount = 5,
-    private defaultRetryWaitMillis = 2000
+    private defaultRetryWaitMillis = 2000,
+    axiosInstanceConfig: AxiosRequestConfig = {}
   ) {
     this.explorerHttpClient = new ExplorerRequestManager(explorerUri, axiosInstanceConfig);
+  }
+
+  async getTokenInfoById(
+    tokenId: string,
+    numberOfTimesToRetry = this.defaultRetryCount,
+    retryWaitTime: number = this.defaultRetryWaitMillis
+  ): Promise<ITokenInfo> {
+    const token = await this.explorerHttpClient.requestWithRetries<{ items: IBox[] }>(
+      {
+        url: `/api/v1/tokens/${tokenId}`,
+        params: { limit: 100, offset: 0 },
+        transformResponse: (data) => this.JSONBI.parse(data),
+      },
+      numberOfTimesToRetry,
+      retryWaitTime
+    );
+
+    if (token === undefined) return undefined as any; // Failed to retrieve values, we got nothin to give back.
+
+    return token as any;
   }
 
   async getTokensAvailableForSwapping(): Promise<ITokenInfo[]> {
