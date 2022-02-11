@@ -1,5 +1,8 @@
+import JSONBigInt from 'json-bigint';
 import { ExplorerTokenSwapMarketRepository } from './ExplorerTokenSwapMarketRepository';
 import { tokenSwapValuesExample } from './ExplorerTokenSwapMarketRepository.test.samples';
+
+const JSONBI = JSONBigInt({ useNativeBigInt: true });
 
 describe('getLatestTokenSwapValues', () => {
   it('should return an empty array when it cant retrieve data', async () => {
@@ -28,8 +31,8 @@ describe('getLatestTokenSwapValues', () => {
 describe('getTokenInfoById', () => {
   it('should return undefined when it cant retrieve data', async () => {
     const expectedTokenData = undefined;
-    const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository('http://test.example.com', 2, 200, {
-      timeout: 200,
+    const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository('http://test.example.com', 1, 150, {
+      timeout: 100,
     });
     const actualTokenData = await tokenSwapMarketRepo.getTokenInfoById('asdf');
 
@@ -53,5 +56,53 @@ describe('getTokenInfoById', () => {
 
     jest.setTimeout(5000);
     expect(actualTokenData).toEqual(expectedTokenData);
+  });
+});
+
+describe('getLatestTokenSwapValuesForAddress', () => {
+  it('should return undefined when it cant retrieve data', async () => {
+    const expectedTokenData = undefined;
+    const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository('http://test.example.com', 1, 150, {
+      timeout: 100,
+    });
+    const actualTokenData = await tokenSwapMarketRepo.getLatestTokenSwapValuesForAddress('asdf');
+
+    expect(actualTokenData).toEqual(expectedTokenData);
+  });
+  it('should return wallet values for tokens in address', async () => {
+    jest.setTimeout(20000);
+    const expectedTokenDataShape = {
+      token: {
+        tokenId: '36aba4b4a97b65be491cf9f5ca57b5408b0da8d0194f30ec8330d1e8946161c1',
+        amount: 207,
+        decimals: 0,
+        name: 'Erdoge',
+        tokenType: 'EIP-004',
+      },
+      confirmed: { amount: 207, valueInErgs: 4.137875352 },
+      unconfirmed: { amount: 0, valueInErgs: 0 },
+      total: { amount: 207, valueInErgs: 4.137875352 },
+      value: {
+        timestamp: 1644608773949,
+        ergPerToken: '0.019989736',
+        tokenPerErg: '50',
+        token: {
+          name: 'Erdoge',
+          tokenId: '36aba4b4a97b65be491cf9f5ca57b5408b0da8d0194f30ec8330d1e8946161c1',
+          decimals: 0,
+        },
+      },
+    };
+
+    const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository();
+    const tokenValueForAddress = await tokenSwapMarketRepo.getLatestTokenSwapValuesForAddress(
+      '9gzfBJLomCgKk5dgpo5nboEb4aLZtJ9gGsv5TmzcnNSS1ou4ADn'
+    );
+
+    // console.log('AAAA', JSONBI.stringify(tokenValueForAddress, undefined, 2));
+    // Object.values(tokenValueForAddress).forEach(addrVal => {console.log((addrVal || {}).token.name, (addrVal || {}).total.valueInErgs)});
+    // console.log('AAAA', JSONBI.stringify((tokenValueForAddress || {})['d71693c49a84fbbecd4908c94813b46514b18b67a99952dc1e6e4791556de413']));
+    // console.log('AAAA', JSONBI.stringify((tokenValueForAddress || {})['5a34d53ca483924b9a6aa0c771f11888881b516a8d1a9cdc535d063fe26d065e']));
+    jest.setTimeout(5000);
   });
 });

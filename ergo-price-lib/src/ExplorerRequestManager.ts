@@ -18,7 +18,7 @@ export class ExplorerRequestManager {
     });
   }
 
-  async requestWithRetries<T = any>(
+  async requestWithRetries<T>(
     config: AxiosRequestConfig<T>,
     retriesLeft = 5,
     retryWaitTime = 2000
