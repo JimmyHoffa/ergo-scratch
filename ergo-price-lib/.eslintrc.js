@@ -51,6 +51,8 @@ module.exports = {
           "ignorePackages",
           { ts: "never", js: "never", tsx: "never", jsx: "never" },
         ],
+        "import/prefer-default-export": "off",
+        "@typescript-eslint/no-explicit-any": "off",
       },
     },
   ],
