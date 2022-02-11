@@ -37,8 +37,7 @@ export const setChartData = async (tickerData: any[], usd: boolean = true) => {
 
   const poolTimeCategories: any[] = [];
   tickerData.forEach((poolTimes: any) => {
-    poolTimes = poolTimes.filter((pool) => pool.tokenAmount > 1000);
-    poolTimeCategories.push(poolTimes[0].timestamp);
+    poolTimeCategories.push(moment(poolTimes[0].timestamp).toISOString());
     poolTimes.forEach((pool) => {
       poolTimeMap[pool.tokenName] = poolTimeMap[pool.tokenName] || [];
       poolTimeMap[pool.tokenName].push(pool);
