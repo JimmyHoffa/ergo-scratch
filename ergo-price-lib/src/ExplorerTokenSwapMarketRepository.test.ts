@@ -71,28 +71,6 @@ describe('getLatestTokenSwapValuesForAddress', () => {
   });
   it('should return wallet values for tokens in address', async () => {
     jest.setTimeout(20000);
-    const expectedTokenDataShape = {
-      token: {
-        tokenId: '36aba4b4a97b65be491cf9f5ca57b5408b0da8d0194f30ec8330d1e8946161c1',
-        amount: 207,
-        decimals: 0,
-        name: 'Erdoge',
-        tokenType: 'EIP-004',
-      },
-      confirmed: { amount: 207, valueInErgs: 4.137875352 },
-      unconfirmed: { amount: 0, valueInErgs: 0 },
-      total: { amount: 207, valueInErgs: 4.137875352 },
-      value: {
-        timestamp: 1644608773949,
-        ergPerToken: '0.019989736',
-        tokenPerErg: '50',
-        token: {
-          name: 'Erdoge',
-          tokenId: '36aba4b4a97b65be491cf9f5ca57b5408b0da8d0194f30ec8330d1e8946161c1',
-          decimals: 0,
-        },
-      },
-    };
 
     const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository();
     const tokenValueForAddress = await tokenSwapMarketRepo.getLatestTokenSwapValuesForAddress(

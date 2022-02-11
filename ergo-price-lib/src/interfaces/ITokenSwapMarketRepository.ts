@@ -14,6 +14,6 @@ export interface ITokenSwapMarketRepository {
   getTokensAvailableForSwapping(): Promise<ITokenInfo[]>;
   getSwappableTokenMarketCaps(): Promise<ITokenSwapValue[]>;
   getLatestTokenSwapValues(): Promise<ITokenSwapValue[]>;
-  getLatestTokenSwapValueByTokenId(tokenId: string): Promise<ITokenSwapValue>;
+  getLatestTokenSwapValueByTokenId(tokenId: string): Promise<ITokenSwapValue | undefined>;
   getLatestTokenSwapValuesForAddress(address: string): Promise<IAddressTokenAmounts | undefined>;
 }

@@ -68,7 +68,7 @@ export class ExplorerTokenSwapMarketRepository implements ITokenSwapMarketReposi
   }
 
   async getTokensAvailableForSwapping(): Promise<ITokenInfo[]> {
-    throw new Error('Method not implemented.');
+    return (await this.getLatestTokenSwapValues()).map((swapValue) => swapValue.token);
   }
 
   async getSwappableTokenMarketCaps(): Promise<ITokenSwapValue[]> {
@@ -101,8 +101,8 @@ export class ExplorerTokenSwapMarketRepository implements ITokenSwapMarketReposi
     );
   }
 
-  async getLatestTokenSwapValueByTokenId(tokenId: string): Promise<ITokenSwapValue> {
-    throw new Error('Method not implemented.');
+  async getLatestTokenSwapValueByTokenId(tokenId: string): Promise<ITokenSwapValue | undefined> {
+    return (await this.getLatestTokenSwapValues())?.filter((swapValue) => swapValue.token.tokenId === tokenId).pop();
   }
 
   multiplyFractions(amountA: number, decimalsA: number, amountB: number, decimalsB: number) {
