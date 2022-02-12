@@ -5,9 +5,11 @@
         "strict": true,
         "noImplicitReturns": true,
         "noImplicitAny": true,
-        "module": "es6",
+        "module": "CommonJS",
         "moduleResolution": "node",
-        "target": "es5",
+        "declaration": true,
+        "esModuleInterop": true,
+        "target": "ESNext",
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
         "lib": ["es2020"],
@@ -16,6 +18,7 @@
         "baseUrl": "./"
     },
     "include": [
-        "./src/index.ts"
-    ]
+        "./src/**/*.ts", "./src/**/*.js"
+    ],
+    "exclude": ["node_modules", "dist", "./src/**/*.test.*"]
 }
