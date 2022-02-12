@@ -1,5 +1,5 @@
 import { ITokenDetail } from './ITokenDetail';
-import { ITokenSwapValue } from './ITokenSwapValue';
+import { ITokenRate } from './ITokenRate';
 
 export interface ITokenValue {
   amount: number;
@@ -10,5 +10,5 @@ export interface ITokenBalance extends ITokenDetail {
   confirmed: ITokenValue;
   unconfirmed: ITokenValue;
   total: ITokenValue;
-  value?: ITokenSwapValue;
+  value?: ITokenRate;
 }

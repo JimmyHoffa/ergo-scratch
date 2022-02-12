@@ -4,13 +4,13 @@ import { tokenSwapValuesExample } from './ExplorerTokenSwapMarketRepository.test
 
 const JSONBI = JSONBigInt({ useNativeBigInt: true });
 
-describe('getLatestTokenSwapValues', () => {
+describe('getTokenRates', () => {
   it('should return an empty array when it cant retrieve data', async () => {
     const expectedSwapValues: any[] = [];
     const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository('http://test.example.com', 2, 200, {
       timeout: 200,
     });
-    const actualSwapValues = await tokenSwapMarketRepo.getLatestTokenSwapValues();
+    const actualSwapValues = await tokenSwapMarketRepo.getTokenRates();
 
     expect(actualSwapValues).toEqual(expectedSwapValues);
   });
@@ -18,7 +18,7 @@ describe('getLatestTokenSwapValues', () => {
     jest.setTimeout(20000);
     const expectedSwapValues = tokenSwapValuesExample;
     const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository();
-    const actualSwapValues = await tokenSwapMarketRepo.getLatestTokenSwapValues();
+    const actualSwapValues = await tokenSwapMarketRepo.getTokenRates();
 
     expect(actualSwapValues.length).toBeGreaterThanOrEqual(expectedSwapValues.length);
     expect(actualSwapValues[0].ergPerToken).toBeDefined();
@@ -59,13 +59,13 @@ describe('getTokenInfoById', () => {
   });
 });
 
-describe('getLatestTokenSwapValuesForAddress', () => {
+describe('getTokenValuesForAddress', () => {
   it('should return undefined when it cant retrieve data', async () => {
     const expectedTokenData = undefined;
     const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository('http://test.example.com', 1, 150, {
       timeout: 100,
     });
-    const actualTokenData = await tokenSwapMarketRepo.getLatestTokenSwapValuesForAddress('asdf');
+    const actualTokenData = await tokenSwapMarketRepo.getTokenValuesForAddress('asdf');
 
     expect(actualTokenData).toEqual(expectedTokenData);
   });
@@ -73,7 +73,7 @@ describe('getLatestTokenSwapValuesForAddress', () => {
     jest.setTimeout(20000);
 
     const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository();
-    const tokenValueForAddress = await tokenSwapMarketRepo.getLatestTokenSwapValuesForAddress(
+    const tokenValueForAddress = await tokenSwapMarketRepo.getTokenValuesForAddress(
       '9gzfBJLomCgKk5dgpo5nboEb4aLZtJ9gGsv5TmzcnNSS1ou4ADn'
     );
 

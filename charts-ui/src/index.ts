@@ -8,7 +8,7 @@ const explorerRepo = new ExplorerTokenSwapMarketRepository();
 
 const curData: any[] = tickerData as any[];
 const updateCharts = async () => {
-  const tokenPools = await explorerRepo.getLatestTokenSwapValues();
+  const tokenPools = await explorerRepo.getTokenRates();
   if (tokenPools === undefined) {
     console.log('Failed to get pools, will try again next interval');
   }
