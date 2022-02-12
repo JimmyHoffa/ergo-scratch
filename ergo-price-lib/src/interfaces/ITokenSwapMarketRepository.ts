@@ -12,7 +12,7 @@ import { ITokenSwapValue } from './ITokenSwapValue';
 
 export interface ITokenSwapMarketRepository {
   getTokensAvailableForSwapping(): Promise<ITokenInfo[]>;
-  getSwappableTokenMarketCaps(): Promise<ITokenSwapValue[]>;
+  // getSwappableTokenMarketCaps(): Promise<ITokenSwapValue[]>;
   getLatestTokenSwapValues(): Promise<ITokenSwapValue[]>;
   getLatestTokenSwapValueByTokenId(tokenId: string): Promise<ITokenSwapValue | undefined>;
   getLatestTokenSwapValuesForAddress(address: string): Promise<IAddressTokenAmounts | undefined>;

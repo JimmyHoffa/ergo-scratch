@@ -47,34 +47,6 @@ export class ExplorerTokenSwapMarketRepository implements ITokenSwapMarketReposi
     this.explorerHttpClient = new ExplorerRequestManager(explorerUri, axiosInstanceConfig);
   }
 
-  async getTokenInfoById(
-    tokenId: string,
-    numberOfTimesToRetry = this.defaultRetryCount,
-    retryWaitTime: number = this.defaultRetryWaitMillis
-  ): Promise<ITokenInfo> {
-    const token = await this.explorerHttpClient.requestWithRetries<{ items: IBox[] }>(
-      {
-        url: `/api/v1/tokens/${tokenId}`,
-        params: { limit: 100, offset: 0 },
-        transformResponse: (data) => JSONBI.parse(data),
-      },
-      numberOfTimesToRetry,
-      retryWaitTime
-    );
-
-    if (token === undefined) return undefined as any; // Failed to retrieve values, we got nothin to give back.
-
-    return token as any;
-  }
-
-  async getTokensAvailableForSwapping(): Promise<ITokenInfo[]> {
-    return (await this.getLatestTokenSwapValues()).map((swapValue) => swapValue.token);
-  }
-
-  async getSwappableTokenMarketCaps(): Promise<ITokenSwapValue[]> {
-    throw new Error('Method not implemented.');
-  }
-
   async getLatestTokenSwapValues(
     numberOfTimesToRetry = this.defaultRetryCount,
     retryWaitTime: number = this.defaultRetryWaitMillis
@@ -99,10 +71,6 @@ export class ExplorerTokenSwapMarketRepository implements ITokenSwapMarketReposi
         return acc;
       }, {})
     );
-  }
-
-  async getLatestTokenSwapValueByTokenId(tokenId: string): Promise<ITokenSwapValue | undefined> {
-    return (await this.getLatestTokenSwapValues())?.filter((swapValue) => swapValue.token.tokenId === tokenId).pop();
   }
 
   multiplyFractions(amountA: number, decimalsA: number, amountB: number, decimalsB: number) {
@@ -181,5 +149,33 @@ export class ExplorerTokenSwapMarketRepository implements ITokenSwapMarketReposi
     tokenSwapValues?.forEach((value) => this.decorateTokenAmountsWithValues(value, tokenAmountsMap));
 
     return tokenAmountsMap;
+  }
+
+  async getTokenInfoById(
+    tokenId: string,
+    numberOfTimesToRetry = this.defaultRetryCount,
+    retryWaitTime: number = this.defaultRetryWaitMillis
+  ): Promise<ITokenInfo> {
+    const token = await this.explorerHttpClient.requestWithRetries<{ items: IBox[] }>(
+      {
+        url: `/api/v1/tokens/${tokenId}`,
+        params: { limit: 100, offset: 0 },
+        transformResponse: (data) => JSONBI.parse(data),
+      },
+      numberOfTimesToRetry,
+      retryWaitTime
+    );
+
+    if (token === undefined) return undefined as any; // Failed to retrieve values, we got nothin to give back.
+
+    return token as any;
+  }
+
+  async getTokensAvailableForSwapping(): Promise<ITokenInfo[]> {
+    return (await this.getLatestTokenSwapValues()).map((swapValue) => swapValue.token);
+  }
+
+  async getLatestTokenSwapValueByTokenId(tokenId: string): Promise<ITokenSwapValue | undefined> {
+    return (await this.getLatestTokenSwapValues())?.filter((swapValue) => swapValue.token.tokenId === tokenId).pop();
   }
 }
