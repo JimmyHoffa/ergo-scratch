@@ -1,15 +1,14 @@
 import JSONBigInt from 'json-bigint';
-import { ExplorerTokenSwapMarketRepository } from './ExplorerTokenSwapMarketRepository';
-import { tokenSwapValuesExample } from './ExplorerTokenSwapMarketRepository.test.samples';
+import { ExplorerTokenMarket } from './ExplorerTokenMarket';
+import { tokenSwapValuesExample } from './ExplorerTokenMarket.test.samples';
 
 const JSONBI = JSONBigInt({ useNativeBigInt: true });
 
 describe('getTokenRates', () => {
   it('should return an empty array when it cant retrieve data', async () => {
     const expectedSwapValues: any[] = [];
-    const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository('http://test.example.com', 2, 200, {
-      timeout: 200,
-    });
+    const tokenSwapMarketRepo = new ExplorerTokenMarket({ explorerUri: 'http://test.example.com', defaultRetryCount: 1, defaultRetryWaitMillis: 150, throwOnError: false, axiosInstanceConfig: { timeout: 100 }});
+    
     const actualSwapValues = await tokenSwapMarketRepo.getTokenRates();
 
     expect(actualSwapValues).toEqual(expectedSwapValues);
@@ -17,7 +16,7 @@ describe('getTokenRates', () => {
   it('should return token swap values succesfully', async () => {
     jest.setTimeout(20000);
     const expectedSwapValues = tokenSwapValuesExample;
-    const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository();
+    const tokenSwapMarketRepo = new ExplorerTokenMarket();
     const actualSwapValues = await tokenSwapMarketRepo.getTokenRates();
 
     expect(actualSwapValues.length).toBeGreaterThanOrEqual(expectedSwapValues.length);
@@ -31,9 +30,7 @@ describe('getTokenRates', () => {
 describe('getTokenInfoById', () => {
   it('should return undefined when it cant retrieve data', async () => {
     const expectedTokenData = undefined;
-    const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository('http://test.example.com', 1, 150, {
-      timeout: 100,
-    });
+    const tokenSwapMarketRepo = new ExplorerTokenMarket({ explorerUri: 'http://test.example.com', defaultRetryCount: 1, defaultRetryWaitMillis: 150, throwOnError: false, axiosInstanceConfig: { timeout: 100 }});
     const actualTokenData = await tokenSwapMarketRepo.getTokenInfoById('asdf');
 
     expect(actualTokenData).toEqual(expectedTokenData);
@@ -49,7 +46,7 @@ describe('getTokenInfoById', () => {
       name: 'NETA',
       type: 'EIP-004',
     };
-    const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository();
+    const tokenSwapMarketRepo = new ExplorerTokenMarket();
     const actualTokenData = await tokenSwapMarketRepo.getTokenInfoById(
       '472c3d4ecaa08fb7392ff041ee2e6af75f4a558810a74b28600549d5392810e8'
     );
@@ -59,21 +56,19 @@ describe('getTokenInfoById', () => {
   });
 });
 
-describe('getTokenValuesForAddress', () => {
+describe('getTokenBalanceByAddress', () => {
   it('should return undefined when it cant retrieve data', async () => {
     const expectedTokenData = undefined;
-    const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository('http://test.example.com', 1, 150, {
-      timeout: 100,
-    });
-    const actualTokenData = await tokenSwapMarketRepo.getTokenValuesForAddress('asdf');
+    const tokenSwapMarketRepo = new ExplorerTokenMarket({ explorerUri: 'http://test.example.com', defaultRetryCount: 1, defaultRetryWaitMillis: 150, throwOnError: false, axiosInstanceConfig: { timeout: 100 }});
+    const actualTokenData = await tokenSwapMarketRepo.getTokenBalanceByAddress('asdf');
 
     expect(actualTokenData).toEqual(expectedTokenData);
   });
   it('should return wallet values for tokens in address', async () => {
     jest.setTimeout(20000);
 
-    const tokenSwapMarketRepo = new ExplorerTokenSwapMarketRepository();
-    const tokenValueForAddress = await tokenSwapMarketRepo.getTokenValuesForAddress(
+    const tokenSwapMarketRepo = new ExplorerTokenMarket();
+    const tokenValueForAddress = await tokenSwapMarketRepo.getTokenBalanceByAddress(
       '9gzfBJLomCgKk5dgpo5nboEb4aLZtJ9gGsv5TmzcnNSS1ou4ADn'
     );
 

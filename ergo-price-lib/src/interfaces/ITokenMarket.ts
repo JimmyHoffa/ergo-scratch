@@ -12,8 +12,8 @@ import { ITokenRate } from './ITokenRate';
 
 export interface ITokenMarket {
   getSwappableTokens(): Promise<ITokenInfo[]>;
-  // getSwappableTokenMarketCaps(): Promise<ITokenSwapValue[]>; // Implementation pending endpoint on explorer presenting total circulating token amount
   getTokenRates(): Promise<ITokenRate[]>;
   getTokenRateFor(tokenIds: string[]): Promise<ITokenRate[]>;
-  getTokenValuesForAddress(address: string): Promise<IAddressTokenAmounts | undefined>;
+  getTokenBalanceByAddress(address: string): Promise<IAddressTokenAmounts | undefined>;
+  // getSwappableTokenMarketCaps(): Promise<ITokenSwapValue[]>; // Implementation pending endpoint on explorer presenting total circulating token amount
 }

@@ -1,15 +1,15 @@
 import moment from "moment";
-import { ExplorerTokenSwapMarketRepository } from '../../ergo-price-lib';
+import { ExplorerTokenMarket } from '../../ergo-price-lib';
 import { setChartData } from "./chart";
 import tickerData from "./ticker.json";
 (window as any).tickerData = tickerData;
 
-const explorerRepo = new ExplorerTokenSwapMarketRepository();
+const explorerRepo = new ExplorerTokenMarket({ throwOnError: false });
 
-const curData: any[] = tickerData as any[];
+const curData: any[] = (tickerData as any[]).filter(pools => pools.length > 0);
 const updateCharts = async () => {
   const tokenPools = await explorerRepo.getTokenRates();
-  if (tokenPools === undefined) {
+  if (tokenPools === undefined || tokenPools.length < 0) {
     console.log('Failed to get pools, will try again next interval');
   }
   

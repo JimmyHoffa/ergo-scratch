@@ -1,11 +1,11 @@
 import fs, { promises as fsp } from "fs";
 import moment from "moment";
 import path from "path";
-import { ExplorerTokenSwapMarketRepository } from '../../ergo-price-lib';
+import { ExplorerTokenMarket } from '../../ergo-price-lib';
 
 const fileToWrite = path.resolve(process.cwd(), '..', 'charts-ui', 'src', "ticker.json");
 const dataJournal = JSON.parse(fs.readFileSync(fileToWrite).toString());
-const explorerRepo = new ExplorerTokenSwapMarketRepository();
+const explorerRepo = new ExplorerTokenMarket({ throwOnError: false });
 
 const getAndWriteData = async () => {
   const tokenPools = await explorerRepo.getTokenRates();

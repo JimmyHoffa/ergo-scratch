@@ -35,16 +35,46 @@ export const tokenSwapValueFromBox = (box: IBox): ITokenRate => {
   };
 };
 
-export class ExplorerTokenSwapMarketRepository implements ITokenMarket {
+export type ExplorerTokenMarketConfig = {
+  explorerUri?: string;
+  defaultRetryCount?: number;
+  defaultRetryWaitMillis?: number;
+  throwOnError?: boolean;
+  axiosInstanceConfig?: AxiosRequestConfig;
+};
+
+export class ExplorerTokenMarket implements ITokenMarket {
   private explorerHttpClient: ExplorerRequestManager;
 
+  private explorerUri = 'https://api.ergoplatform.com';
+
+  private defaultRetryCount = 5;
+
+  private defaultRetryWaitMillis = 2000;
+
+  private throwOnError = true;
+
   constructor(
-    private explorerUri: string = 'https://api.ergoplatform.com',
-    private defaultRetryCount = 5,
-    private defaultRetryWaitMillis = 2000,
-    axiosInstanceConfig: AxiosRequestConfig = {}
+    {
+      explorerUri = 'https://api.ergoplatform.com',
+      defaultRetryCount = 5,
+      defaultRetryWaitMillis = 2000,
+      throwOnError = true,
+      axiosInstanceConfig = {},
+    }: ExplorerTokenMarketConfig = {
+      explorerUri: 'https://api.ergoplatform.com',
+      defaultRetryCount: 5,
+      defaultRetryWaitMillis: 2000,
+      throwOnError: true,
+      axiosInstanceConfig: {},
+    }
   ) {
-    this.explorerHttpClient = new ExplorerRequestManager(explorerUri, axiosInstanceConfig);
+    this.explorerUri = explorerUri;
+    this.defaultRetryCount = defaultRetryCount;
+    this.defaultRetryWaitMillis = defaultRetryWaitMillis;
+    this.throwOnError = throwOnError;
+
+    this.explorerHttpClient = new ExplorerRequestManager(this.explorerUri, this.throwOnError, axiosInstanceConfig);
   }
 
   async getTokenRates(
@@ -109,7 +139,7 @@ export class ExplorerTokenSwapMarketRepository implements ITokenMarket {
     tokenAmountsMap[value.token.tokenId].value = value;
   }
 
-  async getTokenValuesForAddress(
+  async getTokenBalanceByAddress(
     address: string,
     numberOfTimesToRetry = this.defaultRetryCount,
     retryWaitTime: number = this.defaultRetryWaitMillis
